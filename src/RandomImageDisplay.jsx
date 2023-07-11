@@ -36,6 +36,13 @@ function RandomImageDisplay() {
           property="og:description"
           content="Displaying a random image each time the page is refreshed."
         />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Random Image Display" />
+        <meta
+          name="twitter:description"
+          content="Displaying a random image each time the page is refreshed."
+        />
+        <meta name="twitter:image" content={imageUrl} />
       </Helmet>
       <h1 className="text-3xl font-bold mb-8">Random Image Display</h1>
       {isLoading ? (
