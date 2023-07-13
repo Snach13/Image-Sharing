@@ -10,7 +10,7 @@ import {
   WhatsappShareButton,
 } from "react-share";
 
-function RandomImageDisplay() {
+function ImagePreview() {
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,16 +19,39 @@ function RandomImageDisplay() {
   }, []);
 
   const fetchRandomImage = () => {
-    const randomId = getRandomImageId();
-    const randomImageUrl = `https://picsum.photos/id/${randomId}/600/400`;
-    setImageUrl(randomImageUrl);
-    console.log(imageUrl);
-    setIsLoading(false);
+    fetch("https://picsum.photos/600/400")
+      .then((response) => response.url)
+      .then((url) => {
+        setImageUrl(url);
+        setIsLoading(false);
+        setMetaTags(url);
+      })
+      .catch((error) => console.error("Error fetching random image:", error));
   };
 
-  const getRandomImageId = () => {
-    // Generate a random ID between 1 and 200
-    return Math.floor(Math.random() * 200) + 1;
+  const setMetaTags = (imageUrl) => {
+    const metaTags = [
+      { property: "og:image", content: imageUrl },
+      { property: "og:title", content: "Random Image Display" },
+      {
+        property: "og:description",
+        content: "Displaying a random image each time the page is refreshed.",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Random Image Display" },
+      {
+        name: "twitter:description",
+        content: "Displaying a random image each time the page is refreshed.",
+      },
+      { name: "twitter:image", content: imageUrl },
+    ];
+
+    metaTags.forEach((tag) => {
+      const metaTag = document.createElement("meta");
+      metaTag.setAttribute("property", tag.property || tag.name);
+      metaTag.setAttribute("content", tag.content);
+      document.head.appendChild(metaTag);
+    });
   };
 
   const shareUrl = window.location.href;
@@ -97,4 +120,4 @@ function RandomImageDisplay() {
   );
 }
 
-export default RandomImageDisplay;
+export default ImagePreview;

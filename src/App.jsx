@@ -1,9 +1,11 @@
+import ImagePreview from "./ImagePreview";
 import RandomImageDisplay from "./RandomImageDisplay";
 
 function App() {
   return (
     <>
-      <RandomImageDisplay />
+      {/* <RandomImageDisplay /> */}
+      <ImagePreview />
     </>
   );
 }
